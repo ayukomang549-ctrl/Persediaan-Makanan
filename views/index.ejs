@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manajemen Persediaan</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="page-layout">
+    <div class="main-container">
+        <header class="main-header">
+            <div>
+                <h2>MANAJEMEN PERSEDIAAN</h2>
+                <small>Role: <b style="color: #667eea;"><%= role.toUpperCase() %></b></small>
+            </div>
+            <div class="user-info">
+                Halo, <b><%= user %></b> | <a href="/logout" onclick="return confirm('Keluar?')">Logout</a>
+            </div>
+        </header>
+
+        <form action="/tambah" method="POST" class="form-input">
+            <input type="text" name="nama_makanan" placeholder="Nama Makanan" required>
+            <input type="number" name="stok" placeholder="Stok" required>
+            <input type="number" name="harga" placeholder="Harga (Tanpa Titik)" required>
+            <button type="submit">Simpan Data</button>
+        </form>
+
+        <h3 class="title-table">DATA PERSEDIAAN MAKANAN</h3>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>NAMA MAKANAN</th>
+                    <th>STOK</th>
+                    <th>HARGA (Rp)</th>
+                    <% if (role === 'admin') { %>
+                        <th class="text-center">AKSI</th>
+                    <% } %>
+                </tr>
+            </thead>
+            <tbody>
+                <% makanan.forEach(item => { %>
+                <tr>
+                    <td><%= item.nama_makanan %></td>
+                    <td><%= item.stok %></td>
+                    <td><%= Number(item.harga).toLocaleString('id-ID') %></td>
+                    
+                    <% if (role === 'admin') { %>
+                        <td class="text-center">
+                            <a href="/hapus/<%= item.id %>" class="btn-del" onclick="return confirm('Hapus?')">Hapus</a>
+                        </td>
+                    <% } %>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
